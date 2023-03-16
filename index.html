@@ -118,7 +118,7 @@
 
 <html>
 <head>
-	<title>Grounding Scene Graphs on Natural Images via Visio-Lingual Message Passing</title>
+	<title>Edges to Shapes to Concepts: Adversarial Augmentation for Robust Vision</title>
 	<meta property="og:image" content="goal2.png"/> <!-- Facebook automatically scrapes this. Go to https://developers.facebook.com/tools/debug/ if you update and want to force Facebook to rescrape. -->
 	<meta property="og:title" content="Creative and Descriptive Paper Title." />
 	<meta property="og:description" content="Paper description." />
@@ -138,7 +138,7 @@
 <body>
 	<br>
 	<center>
-		<span style="font-size:36px">Grounding Scene Graphs on Natural Images via Visio-Lingual Message Passing</span>
+		<span style="font-size:36px">Edges to Shapes to Concepts: Adversarial Augmentation for Robust Vision</span>
 		<table align=center width=600px>
 			<table align=center width=600px>
 				<tr>
@@ -149,12 +149,18 @@
 					</td>
 					<td align=center width=100px>
 						<center>
-							<span style="font-size:24px"><a href="https://anandmishra22.github.io/">Anand Mishra</a></span>
+							<span style="font-size:24px"><a href="rishubhsingh.github.io">Rishubh Singh</a></span>
 						</center>
 					</td>
 					<td align=center width=100px>
 						<center>
 							<span style="font-size:24px"><a href="https://cds.iisc.ac.in/people/faculty/name/anirban-chakraborty/#:~:text=Anirban%20Chakraborty%20Assistant%20Professor%2C%20Pratiksha,anirban%40iisc.ac.in">Anirban Chakraborty</a></span>
+						</center>
+					</td>
+
+					<td align=center width=100px>
+						<center>
+							<span style="font-size:24px"><a href="https://sites.google.com/site/pshenoyuw/">Pradeep Shenoy</a></span>
 						</center>
 					</td>
 				</tr>
@@ -163,12 +169,12 @@
 				<tr>
 					<td align=center width=120px>
 						<center>
-							<span style="font-size:24px"><a href='https://arxiv.org/abs/2211.01969'>[Paper]</a></span>
+							<span style="font-size:24px"><a href='https://arxiv.org/pdf/2211.07277.pdf'>[Paper]</a></span>
 						</center>
 					</td>
 					<td align=center width=120px>
 						<center>
-							<span style="font-size:24px"><a href='https://github.com/IISCAditayTripathi/Scene-graph-localization'>[GitHub]</a></span><br>
+							<span style="font-size:24px"><a href=''>[GitHub]</a></span><br>
 						</center>
 					</td>
 				</tr>
@@ -195,7 +201,7 @@
 		<table align=center width=850px>
 			<tr>
 				<td>
-				<b>Goal:</b> Given a scene graph and an image, we ground (or localize) objects and, thereby, indirectly visual relationships as well jointly on the image.				
+				<b>Goal:</b> To improve the shape sensitivity of vision models thereby imporving the OOD robustness.				
 				</td>
 			</tr>
 		</table>
@@ -208,7 +214,7 @@
 		<center><h1>Abstract</h1></center>
 		<tr>
 			<td>
-				This paper presents a framework for jointly grounding objects that follow certain semantic relationship constraints given in a scene graph. A typical natural scene contains several objects, often exhibiting visual relationships of varied complexities between them. These inter-object relationships provide strong contextual cues towards improving grounding performance compared to a traditional object query only-based localization task. A scene graph is an efficient and structured way to represent all the objects in the image and their semantic relationships. In an attempt towards bridging these two modalities representing scenes and utilizing contextual information for improving the object localization, we rigorously study the problem of grounding scene graphs in natural images. To this end, we propose a novel graph neural network-based approach referred to as Visio-Lingual Message Passing Graph Neural Network (VL-MPAGNet). The model first constructs a directed graph with object proposals as nodes and an edge between a pair of nodes representing a plausible relation between them. Then a three-step inter-graph and intra-graph message passing are performed to learn the context-dependent representation of the proposals and query objects. These object representations are used to score the proposals to generate object localization. The proposed method significantly outperforms the baselines on four public datasets.
+				Recent work has shown that deep vision models tend to be overly dependent on low-level or texture features, leading to poor generalization. Various data augmentation strategies have been proposed to overcome this so-called texture bias in DNNs. We propose a simple, lightweight \textit{adversarial augmentation} technique that explicitly incentivizes the network to learn holistic shapes for accurate prediction in an object classification setting. Our augmentations superpose edgemaps from one image onto another image with shuffled patches, using a randomly determined mixing proportion, with the image label of the edgemap image. To classify these augmented images, the model needs to not only detect and focus on edges but distinguish between relevant and spurious edges. We show that our augmentations significantly improve classification accuracy and robustness measures on a range of datasets and neural architectures. As an example, for ViT-S, We obtain absolute gains on classification accuracy gains up to 6 %. We also obtain gains of up to 28 % and 8.5 % on natural adversarial and out-of-distribution datasets like ImageNet-A (for ViT-B) and ImageNet-R (for ViT-S), respectively. Analysis using a range of probe datasets shows substantially increased shape sensitivity in our trained models, explaining the observed improvement in robustness and classification accuracy.
 			</td>
 		</tr>
 	</table>
@@ -218,7 +224,7 @@
 		<tr>
 			<td>
 				<center>
-					<img  class = "round" style="width:700px" src="./resources/model_fig.png"/>
+					<img  class = "round" style="width:700px" src="./resources/fig1.png"/>
 				</center>
 			</td>
 		</tr>
@@ -227,7 +233,10 @@
 	<table align=center width=850px>
 		<tr>
 			<td>
-				The proposed scene-graph grounding framework (VL-MPAGNet) works in the following steps: (i) <b>Proposal graph generation:</b> A proposal graph is first constructed using object proposals obtained from RPN as nodes (shown using gray nodes), and edges defined using the relations present in the query. Directed edges from the query nodes to the proposals nodes (shown using dotted arrows) are also included to connect the query and proposal graph. (ii) <b>Structured graph learning:</b> Here, structured representation of proposals and queries are learned by a three-step message passing using edges from the query nodes to the proposals, and in the query and the proposal graphs independently, and (iii) <b>Proposal scoring</b> the object proposals are finally scored against the query nodes to localize objects.
+				<b>Comparison of the models on robustness and shape-bias.</b> The shape factor gives the
+fraction of dimensions that encode shape cues. Backbone(T) denotes texture
+shape debiased (TSD) models. In comparison, ELEAS denoted by Backbone(E) is
+more shape biased and shows better performance on ImageNet-C and ImageNet-A datasets.
 			</td>
 		</tr>
 	</table>
@@ -281,7 +290,7 @@
 	<table align=center width=800px>
 		<br>
 		<tr><center>
-			<span style="font-size:28px">&nbsp;<a href='https://github.com/IISCAditayTripathi/Scene-graph-localization'>[GitHub]</a>
+			<span style="font-size:28px">&nbsp;<a href=''>[GitHub]</a>
 			</center>
 		</span>
 	</table>
@@ -290,11 +299,11 @@
 	<table align=center width=450px>
 		<center><h1>Paper and Supplementary Material</h1></center>
 		<tr>
-			<td><a href=""><img class="layered-paper-big" style="height:175px" src="./resources/wacv23_paper_screenshot.png"/></a></td>
+			<td><a href=""><img class="layered-paper-big" style="height:175px" src="./resources/cvpr23_paper_screenshot.png"/></a></td>
 			<td><span style="font-size:14pt">A. Tripathi, A. Mishra, A. Chakraborty.<br>
 				<b>Grounding Scene Graphs on Natural Images via Visio-Lingual Message Passing</b><br>
-				In WACV, 2023.<br>
-				(hosted on <a href="https://arxiv.org/abs/2211.01969">ArXiv</a>)<br>
+				In CVPR, 2023.<br>
+				(hosted on <a href="https://arxiv.org/pdf/2211.07277.pdf">ArXiv</a>)<br>
 				<!-- (<a href="./resources/camera-ready.pdf">camera ready</a>)<br> -->
 				<span style="font-size:4pt"><a href=""><br></a>
 				</span>
